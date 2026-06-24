@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import {
   IconBuilding,
   IconTrendingUp,
@@ -154,10 +154,14 @@ function AccountCard({
   openDealsValue = 0,
 }: AccountCardProps) {
   const accountSlug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const navigate = useNavigate();
 
   return (
-    <Link to={`/adhoc/strategic-accounts/${accountSlug}`}>
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+    <div
+      onClick={() => navigate(`/adhoc/strategic-accounts/${accountSlug}`)}
+      className="cursor-pointer"
+    >
+      <Card className="hover:shadow-lg transition-shadow h-full">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
@@ -221,7 +225,7 @@ function AccountCard({
           )}
         </CardContent>
       </Card>
-    </Link>
+    </div>
   );
 }
 
