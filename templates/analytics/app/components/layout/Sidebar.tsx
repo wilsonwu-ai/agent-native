@@ -2036,35 +2036,31 @@ export function Sidebar({ mobile }: { mobile?: boolean } = {}) {
                           >
                             Strategic Accounts
                           </Link>
-                          <Link
-                            to="/adhoc/strategic-accounts-contacts"
-                            className={cn(
-                              "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-all hover:text-primary",
-                              activeDashboardId ===
-                                "strategic-accounts-contacts"
-                                ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-                                : "text-muted-foreground hover:bg-sidebar-accent/50",
-                            )}
-                          >
-                            <span className="text-muted-foreground/50 text-xs">
-                              └
-                            </span>
-                            Strategic Account Coverage
-                          </Link>
-                          <Link
-                            to="/adhoc/impl-blockers"
-                            className={cn(
-                              "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-all hover:text-primary",
-                              activeDashboardId === "impl-blockers"
-                                ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-                                : "text-muted-foreground hover:bg-sidebar-accent/50",
-                            )}
-                          >
-                            <span className="text-muted-foreground/50 text-xs">
-                              └
-                            </span>
-                            Implementation Blockers
-                          </Link>
+                          <div className="ms-2 space-y-0.5 border-l border-border/40 pl-2">
+                            <Link
+                              to="/adhoc/strategic-accounts-contacts"
+                              className={cn(
+                                "flex items-center rounded-md px-2 py-1 text-xs transition-all hover:text-primary",
+                                activeDashboardId ===
+                                  "strategic-accounts-contacts"
+                                  ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                                  : "text-muted-foreground hover:bg-sidebar-accent/50",
+                              )}
+                            >
+                              Strategic Account Coverage
+                            </Link>
+                            <Link
+                              to="/adhoc/impl-blockers"
+                              className={cn(
+                                "flex items-center rounded-md px-2 py-1 text-xs transition-all hover:text-primary",
+                                activeDashboardId === "impl-blockers"
+                                  ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                                  : "text-muted-foreground hover:bg-sidebar-accent/50",
+                              )}
+                            >
+                              Implementation Blockers
+                            </Link>
+                          </div>
                         </div>
                       )}
                     </div>

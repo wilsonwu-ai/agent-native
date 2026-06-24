@@ -166,10 +166,10 @@ function AccountCard({
             </div>
             <IconExternalLink className="h-4 w-4 text-muted-foreground" />
           </div>
-          <CardDescription className="flex flex-wrap gap-2 mt-2">
+          <div className="flex flex-wrap gap-2 mt-2">
             {getDeploymentBadge(deploymentStatus)}
             {getStrategyBadge(strategy)}
-          </CardDescription>
+          </div>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex justify-between items-center text-sm">
