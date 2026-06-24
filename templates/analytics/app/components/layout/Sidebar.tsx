@@ -1153,6 +1153,7 @@ export function Sidebar({ mobile }: { mobile?: boolean } = {}) {
     getStoredBoolean(DASHBOARDS_OPEN_KEY, true),
   );
   const [dashShowAll, setDashShowAll] = useState(false);
+  const [salesOpen, setSalesOpen] = useState(true);
   const [dashFilter, setDashFilter] = useState<"all" | "org">("all");
   const [analysesOpen, setAnalysesOpen] = useState(() =>
     getStoredBoolean(ANALYSES_OPEN_KEY, true),
@@ -1393,8 +1394,13 @@ export function Sidebar({ mobile }: { mobile?: boolean } = {}) {
   );
 
   const visibleDashboards = useMemo<SidebarDashboard[]>(() => {
+    const salesDashboardIds = new Set([
+      "strategic-accounts",
+      "strategic-accounts-contacts",
+      "impl-blockers",
+    ]);
     const staticItems: SidebarDashboard[] = dashboards
-      .filter((d) => !hiddenIds.has(d.id))
+      .filter((d) => !hiddenIds.has(d.id) && !salesDashboardIds.has(d.id))
       .map((d) => ({
         id: d.id,
         name: staticDashboardRenames[d.id] ?? d.name,
@@ -2002,6 +2008,66 @@ export function Sidebar({ mobile }: { mobile?: boolean } = {}) {
                   strategy={verticalListSortingStrategy}
                 >
                   <div className="ms-4 min-w-0 space-y-0.5">
+                    {/* SALES subgroup */}
+                    <div className="mb-1">
+                      <button
+                        type="button"
+                        className="flex w-full items-center gap-1 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground/60 hover:text-primary transition-colors"
+                        onClick={() => setSalesOpen(!salesOpen)}
+                      >
+                        <IconChevronDown
+                          className={cn(
+                            "h-3 w-3 transition-transform",
+                            !salesOpen && "-rotate-90",
+                          )}
+                        />
+                        Sales
+                      </button>
+                      {salesOpen && (
+                        <div className="ms-2 space-y-0.5 mt-0.5">
+                          <Link
+                            to="/adhoc/strategic-accounts"
+                            className={cn(
+                              "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-all hover:text-primary",
+                              activeDashboardId === "strategic-accounts"
+                                ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                                : "text-muted-foreground hover:bg-sidebar-accent/50",
+                            )}
+                          >
+                            Strategic Accounts
+                          </Link>
+                          <Link
+                            to="/adhoc/strategic-accounts-contacts"
+                            className={cn(
+                              "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-all hover:text-primary",
+                              activeDashboardId ===
+                                "strategic-accounts-contacts"
+                                ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                                : "text-muted-foreground hover:bg-sidebar-accent/50",
+                            )}
+                          >
+                            <span className="text-muted-foreground/50 text-xs">
+                              └
+                            </span>
+                            Strategic Account Coverage
+                          </Link>
+                          <Link
+                            to="/adhoc/impl-blockers"
+                            className={cn(
+                              "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-all hover:text-primary",
+                              activeDashboardId === "impl-blockers"
+                                ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                                : "text-muted-foreground hover:bg-sidebar-accent/50",
+                            )}
+                          >
+                            <span className="text-muted-foreground/50 text-xs">
+                              └
+                            </span>
+                            Implementation Blockers
+                          </Link>
+                        </div>
+                      )}
+                    </div>
                     {displayedDashboards.map((d) => (
                       <SortableDashboardItem
                         key={d.id}

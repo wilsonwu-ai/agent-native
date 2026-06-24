@@ -59,11 +59,34 @@ export interface DashboardMeta {
    * Set to today's date when creating. Update when making changes.
    */
   lastUpdated: string;
+
+  /** Optional child dashboard IDs shown nested under this parent in the sidebar. */
+  children?: string[];
 }
 
 // Add new dashboards here. Each entry needs a matching file in this directory.
 // REQUIRED FIELDS: id, name, author, lastUpdated
-export const dashboards: DashboardMeta[] = [];
+export const dashboards: DashboardMeta[] = [
+  {
+    id: "strategic-accounts",
+    name: "Strategic Accounts",
+    author: "brent@builder.io",
+    lastUpdated: "2026-04-01",
+    children: ["strategic-accounts-contacts", "impl-blockers"],
+  },
+  {
+    id: "strategic-accounts-contacts",
+    name: "Strategic Account Coverage",
+    author: "brent@builder.io",
+    lastUpdated: "2026-04-01",
+  },
+  {
+    id: "impl-blockers",
+    name: "Implementation Blockers",
+    author: "brent@builder.io",
+    lastUpdated: "2026-04-01",
+  },
+];
 
 const HIDDEN_KEY = "hidden-dashboards";
 
@@ -142,6 +165,11 @@ export const dashboardComponents: Partial<
 > = {
   explorer: lazy(() => import("./explorer")),
   "explorer-dashboard": lazy(() => import("./explorer-dashboard")),
+  "strategic-accounts": lazy(() => import("./strategic-accounts")),
+  "strategic-accounts-contacts": lazy(
+    () => import("./strategic-accounts-contacts"),
+  ),
+  "impl-blockers": lazy(() => import("./impl-blockers")),
 };
 
 // Validate all dashboards at module load time
