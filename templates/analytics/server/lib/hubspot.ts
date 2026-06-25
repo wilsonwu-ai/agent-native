@@ -127,7 +127,8 @@ export type HubSpotObjectType = (typeof HUBSPOT_OBJECT_TYPES)[number];
 export type HubSpotAssociatedObjectType =
   | HubSpotObjectType
   | "notes"
-  | "emails";
+  | "emails"
+  | "meetings";
 
 function isHubSpotObjectType(
   objectType: HubSpotAssociatedObjectType,
@@ -318,6 +319,16 @@ const DEFAULT_ASSOCIATED_OBJECT_PROPERTIES: Record<
 > = {
   ...DEFAULT_OBJECT_PROPERTIES,
   notes: ["hs_object_id", "hs_note_body", "hs_timestamp", "createdate"],
+  meetings: [
+    "hs_object_id",
+    "hs_timestamp",
+    "hs_meeting_title",
+    "hs_meeting_start_time",
+    "hs_meeting_end_time",
+    "hs_meeting_outcome",
+    "hs_meeting_body",
+    "hs_internal_meeting_notes",
+  ],
   emails: [
     "hs_object_id",
     "hs_email_direction",

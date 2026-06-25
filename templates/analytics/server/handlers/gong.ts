@@ -1,11 +1,16 @@
-import { defineEventHandler, getQuery, setResponseStatus } from "h3";
+import {
+  defineEventHandler,
+  getQuery,
+  getRouterParam,
+  setResponseStatus,
+} from "h3";
 import { runApiHandlerWithContext } from "../lib/credentials";
 import {
   DEFAULT_GONG_CALL_LIMIT,
   limitGongCalls,
   normalizeGongCallLimit,
 } from "../lib/gong-limits";
-import { getCalls, getUsers, searchCalls } from "../lib/gong";
+import { getCallDetail, getCalls, getUsers, searchCalls } from "../lib/gong";
 import { resolveAnalyticsGongCredentials } from "../lib/provider-credentials";
 
 function missingGongCredentials() {
@@ -45,6 +50,30 @@ export const handleGongCalls = defineEventHandler(async (event) => {
       }
     } catch (err: any) {
       console.error("Gong calls error:", err.message);
+      setResponseStatus(event, 500);
+      return { error: err.message };
+    }
+  });
+});
+
+export const handleGongCallDetail = defineEventHandler(async (event) => {
+  return runApiHandlerWithContext(event, async (ctx) => {
+    const credentials = await resolveAnalyticsGongCredentials({ ctx });
+    if (!credentials) return missingGongCredentials();
+    try {
+      const callId = getRouterParam(event, "id");
+      if (!callId) {
+        setResponseStatus(event, 400);
+        return { error: "call id is required" };
+      }
+      const detail = await getCallDetail(callId);
+      if (!detail) {
+        setResponseStatus(event, 404);
+        return { error: "Call not found" };
+      }
+      return detail;
+    } catch (err: any) {
+      console.error("Gong call detail error:", err.message);
       setResponseStatus(event, 500);
       return { error: err.message };
     }
